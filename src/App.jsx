@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Upload, Send, FileText, X, Loader2, AlertCircle } from "lucide-react";
-
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import "./index.css";
 export default function App() {
   // Use your Vite env variable
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
@@ -218,14 +220,17 @@ export default function App() {
               }`}
             >
               <div
-                className={`p-4 rounded-3xl shadow-lg max-w-[90%] sm:max-w-[70%] transition-all duration-300 ${
+                className={`p-5 rounded-2xl shadow-md max-w-[90%] sm:max-w-[70%] transition-all duration-300 ${
                   msg.role === "user"
-                    ? "bg-yellow-500 text-white rounded-br-lg"
-                    : "bg-white text-gray-800 border border-gray-200 rounded-tl-lg"
+                    ? "bg-yellow-500 text-white rounded-br-xl"
+                    : "bg-gradient-to-br from-white via-gray-50 to-gray-100 text-gray-900 border border-gray-200 rounded-tl-xl"
                 }`}
-                style={{ whiteSpace: "pre-wrap" }}
               >
-                {msg.text}
+                <div className="prose prose-sm prose-headings:font-semibold prose-headings:text-gray-800 prose-li:my-1 prose-p:leading-relaxed max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {msg.text}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           ))}
@@ -264,7 +269,8 @@ export default function App() {
               >
                 {isProcessingPdf ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin" /> Processing PDF...
+                    <Loader2 className="w-5 h-5 animate-spin" /> Processing
+                    PDF...
                   </>
                 ) : (
                   <>
